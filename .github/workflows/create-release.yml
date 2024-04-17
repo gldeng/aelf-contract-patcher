@@ -29,7 +29,7 @@ jobs:
           echo "Version extracted: $version"
 
       - name: Setup .NET
-        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source ${{ secrets.NUGET_FEED_URL }}
+        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source MyPrivateNugetSource
 
 #      - name: Set up NuGet
 #        uses: NuGet/setup-nuget@v1
