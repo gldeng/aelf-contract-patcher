@@ -28,6 +28,14 @@ jobs:
           echo "::set-output name=version::$version"
           echo "Version extracted: $version"
 
+      - name: Set up NuGet
+        uses: NuGet/setup-nuget@v1
+        with:
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }} # Use your API key stored as a secret
+
+      - name: Add private Nexus NuGet source
+        run: nuget sources add -name MyPrivateNugetSource -source ${{ secrets.NUGET_FEED_URL }} -username apikey -password ${{ secrets.NUGET_API_KEY }}
+
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           mkdir -p zips
