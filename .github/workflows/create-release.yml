@@ -54,6 +54,9 @@ jobs:
             </apikeys>
           </configuration>' > nuget.config
 
+      - name: Restore packages
+        run: dotnet restore
+
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           mkdir -p zips
