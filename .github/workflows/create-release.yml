@@ -25,7 +25,7 @@ jobs:
         run: |
           echo "Extracting version..."
           version=$(echo "${{ github.ref }}" | sed 's/refs\/tags\/v//' | tr -d '\n')
-          echo "::set-output name=version::$version"
+          echo "VERSION=$version" >> $GITHUB_ENV
           echo "Version extracted: $version"
 
       - name: Create NuGet configuration file
@@ -45,14 +45,12 @@ jobs:
         run: dotnet restore
 
       - name: Build project
-        run: |
-          version=${{ steps.extract_version.outputs.version }}
-          dotnet publish -r ${{ matrix.platforms }} -c Release --self-contained /p:Version=${version}
+        run: dotnet publish -r ${{ matrix.platforms }} -c Release --self-contained /p:Version=$VERSION
 
       - name: Determine if prerelease
         id: determine_prerelease
         run: |
-          if [[ ${{ steps.extract_version.outputs.version }} == *"preview"* ]]; then
+          if [[ $VERSION == *"preview"* ]]; then
             echo "::set-output name=is_prerelease::true"
           else
             echo "::set-output name=is_prerelease::false"
@@ -62,15 +60,14 @@ jobs:
       - name: Create release zips
         run: |
           mkdir -p zips
-          version=${{ steps.extract_version.outputs.version }}
-          zipfilename=aelf-contract-patcher-${{ matrix.platforms }}-v$version.zip
+          zipfilename=aelf-contract-patcher-${{ matrix.platforms }}-v$VERSION.zip
           zip -j "zips/$zipfilename" "AElf.ContractPatcher/bin/Release/net6.0/${{ matrix.platforms }}/publish"/*
 
       - name: Upload zips to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: zips/aelf-contract-patcher-${{ matrix.platforms }}-v${{ steps.extract_version.outputs.version }}.zip
-          asset_name: aelf-contract-patcher-${{ matrix.platforms }}-v${{ steps.extract_version.outputs.version }}.zip
+          file: zips/aelf-contract-patcher-${{ matrix.platforms }}-v$VERSION.zip
+          asset_name: aelf-contract-patcher-${{ matrix.platforms }}-v$VERSION.zip
           tag: ${{ github.ref }}
           prerelease: ${{ steps.determine_prerelease.outputs.is_prerelease }}
