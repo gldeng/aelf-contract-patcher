@@ -99,7 +99,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: aelf-contract-patcher-${{ matrix.platforms }}-v${{ steps.extract_version.outputs.version }}.zip
-          asset_name: zips/aelf-contract-patcher-${{ matrix.platforms }}-v${{ steps.extract_version.outputs.version }}.zip
+          file: zips/aelf-contract-patcher-${{ matrix.platforms }}-v${{ steps.extract_version.outputs.version }}.zip
+          asset_name: aelf-contract-patcher-${{ matrix.platforms }}-v${{ steps.extract_version.outputs.version }}.zip
           tag: ${{ github.ref }}
           prerelease: ${{ steps.determine_prerelease.outputs.is_prerelease }}
