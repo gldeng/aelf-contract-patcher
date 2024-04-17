@@ -93,6 +93,7 @@ jobs:
         shell: bash
 
       - name: Create prerelease
+        id: create_prerelease
         if: steps.determine_prerelease.outputs.is_prerelease == 'true'
         uses: actions/create-release@v1
         env:
@@ -103,6 +104,7 @@ jobs:
           prerelease: true
       
       - name: Create release
+        id: create_release
         if: steps.determine_prerelease.outputs.is_prerelease == 'false'
         uses: actions/create-release@v1
         env:
@@ -121,10 +123,10 @@ jobs:
             zipfilename=aelf-contract-patcher-$platform-v$version.zip
             zip -j "zips/$zipfilename" "AElf.ContractPatcher/bin/Release/net6.0/$platform/publish"/*
             echo "Uploading $zipfilename ..."
-            echo "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.id }}/assets?name=$zipfilename"
+            echo "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_prerelease.outputs.id }}${{ steps.create_release.outputs.id }}/assets?name=$zipfilename"
             curl -X POST \
               -H "Authorization: token ${{ secrets.PAT }}" \
               -H "Content-Type: application/zip" \
               --data-binary "@zips/$zipfilename" \
-              "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.id }}/assets?name=$zipfilename"
+              "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_prerelease.outputs.id }}${{ steps.create_release.outputs.id }}/assets?name=$zipfilename"
           done
