@@ -124,6 +124,6 @@ jobs:
             curl -X POST \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/zip" \
-              --data-binary "@zips/$zipfilename.zip" \
+              --data-binary "@zips/$zipfilename" \
               "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.id }}/assets?name=$zipfilename"
           done
