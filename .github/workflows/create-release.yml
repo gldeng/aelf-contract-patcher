@@ -47,7 +47,7 @@ jobs:
           </configuration>' > nuget.config
 
       - name: Setup .NET
-        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source MyPrivateNugetSource
+        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source ${{ secrets.NUGET_FEED_URL }}
 
 #      - name: Set up NuGet
 #        uses: NuGet/setup-nuget@v1
