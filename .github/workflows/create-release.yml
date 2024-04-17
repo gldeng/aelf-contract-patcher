@@ -28,6 +28,9 @@ jobs:
           echo "::set-output name=version::$version"
           echo "Version extracted: $version"
 
+      - name: Setup .NET
+        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source ${{ secrets.NUGET_FEED_URL }}
+
 #      - name: Set up NuGet
 #        uses: NuGet/setup-nuget@v1
 #        with:
@@ -35,30 +38,30 @@ jobs:
 #
 #      - name: Add private Nexus NuGet source
 #        run: nuget sources add -name MyPrivateNugetSource -source ${{ secrets.NUGET_FEED_URL }} -username apikey -password ${{ secrets.NUGET_API_KEY }}
-
-      - name: Create NuGet configuration file
-        run: |
-          echo '<?xml version="1.0" encoding="utf-8"?>
-          <configuration>
-            <packageSources>
-              <!-- Add the public NuGet.org repository as a package source -->
-              <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
-              <!-- Add the private Nexus NuGet repository as a package source -->
-              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
-              <!-- Include other package sources if needed -->
-            </packageSources>
-           <apikeys>
-              <!-- Add API key for your private Nexus NuGet repository -->
-              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_API_KEY }}" />
-              <!-- Include other API keys if needed -->
-            </apikeys>
-          </configuration>' > nuget.config
-
-      - name: Check files
-        run: ls -la
+#
+#      - name: Create NuGet configuration file
+#        run: |
+#          echo '<?xml version="1.0" encoding="utf-8"?>
+#          <configuration>
+#            <packageSources>
+#              <!-- Add the public NuGet.org repository as a package source -->
+#              <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
+#              <!-- Add the private Nexus NuGet repository as a package source -->
+#              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
+#              <!-- Include other package sources if needed -->
+#            </packageSources>
+#           <apikeys>
+#              <!-- Add API key for your private Nexus NuGet repository -->
+#              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_API_KEY }}" />
+#              <!-- Include other API keys if needed -->
+#            </apikeys>
+#          </configuration>' > nuget.config
+#
+#      - name: Check files
+#        run: ls -la
 
       - name: Restore packages
-        run: dotnet restore --configfile nuget.config
+        run: dotnet restore
 
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
