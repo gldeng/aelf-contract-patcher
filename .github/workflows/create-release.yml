@@ -28,17 +28,6 @@ jobs:
           echo "::set-output name=version::$version"
           echo "Version extracted: $version"
 
-      - name: Setup .NET
-        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source MyPrivateNugetSource
-
-#      - name: Set up NuGet
-#        uses: NuGet/setup-nuget@v1
-#        with:
-#          nuget-api-key: ${{ secrets.NUGET_API_KEY }} # Use your API key stored as a secret
-#
-#      - name: Add private Nexus NuGet source
-#        run: nuget sources add -name MyPrivateNugetSource -source ${{ secrets.NUGET_FEED_URL }} -username apikey -password ${{ secrets.NUGET_API_KEY }}
-#
       - name: Create NuGet configuration file
         run: |
           echo '<?xml version="1.0" encoding="utf-8"?>
@@ -56,6 +45,19 @@ jobs:
               <!-- Include other API keys if needed -->
             </apikeys>
           </configuration>' > nuget.config
+
+      - name: Setup .NET
+        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source MyPrivateNugetSource
+
+#      - name: Set up NuGet
+#        uses: NuGet/setup-nuget@v1
+#        with:
+#          nuget-api-key: ${{ secrets.NUGET_API_KEY }} # Use your API key stored as a secret
+#
+#      - name: Add private Nexus NuGet source
+#        run: nuget sources add -name MyPrivateNugetSource -source ${{ secrets.NUGET_FEED_URL }} -username apikey -password ${{ secrets.NUGET_API_KEY }}
+#
+
 #
 #      - name: Check files
 #        run: ls -la
