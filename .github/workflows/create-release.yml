@@ -94,7 +94,7 @@ jobs:
           mkdir -p zips
           version=${{ steps.extract_version.outputs.version }}
           zipfilename=aelf-contract-patcher-${{ matrix.platforms }}-v$version.zip
-          zip -j "zips/$zipfilename" "AElf.ContractPatcher/bin/Release/net6.0/$platform/publish"/*
+          zip -j "zips/$zipfilename" "AElf.ContractPatcher/bin/Release/net6.0/${{ matrix.platforms }}/publish"/*
       - name: Upload zips to release
         uses: svenstaro/upload-release-action@v2
         with:
