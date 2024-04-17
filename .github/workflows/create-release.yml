@@ -97,7 +97,7 @@ jobs:
         if: steps.determine_prerelease.outputs.is_prerelease == 'true'
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ steps.extract_version.outputs.version }}
@@ -107,7 +107,7 @@ jobs:
         if: steps.determine_prerelease.outputs.is_prerelease == 'false'
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ steps.extract_version.outputs.version }}
