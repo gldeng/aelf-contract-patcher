@@ -28,28 +28,31 @@ jobs:
           echo "::set-output name=version::$version"
           echo "Version extracted: $version"
 
-      - name: Create NuGet configuration file
-        run: |
-          echo '<?xml version="1.0" encoding="utf-8"?>
-          <configuration>
-            <packageSources>
-              <!-- Add the public NuGet.org repository as a package source -->
-              <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
-              <!-- Add the private Nexus NuGet repository as a package source -->
-              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
-              <!-- Include other package sources if needed -->
-            </packageSources>
-           <apikeys>
-              <!-- Add API key for your private Nexus NuGet repository -->
-              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_API_KEY }}" />
-              <!-- Include other API keys if needed -->
-            </apikeys>
-          </configuration>' > nuget.config
+#      - name: Create NuGet configuration file
+#        run: |
+#          echo '<?xml version="1.0" encoding="utf-8"?>
+#          <configuration>
+#            <packageSources>
+#              <!-- Add the public NuGet.org repository as a package source -->
+#              <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
+#              <!-- Add the private Nexus NuGet repository as a package source -->
+#              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
+#              <!-- Include other package sources if needed -->
+#            </packageSources>
+#           <apikeys>
+#              <!-- Add API key for your private Nexus NuGet repository -->
+#              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_API_KEY }}" />
+#              <!-- Include other API keys if needed -->
+#            </apikeys>
+#          </configuration>' > nuget.config
 
-      - name: Setup .NET
-        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source ${{ secrets.NUGET_FEED_URL }}
+#      - name: Setup .NET
+#        run: nuget setapikey ${{ secrets.NUGET_API_KEY }} -source ${{ secrets.NUGET_FEED_URL }}
 
-#      - name: Set up NuGet
+      - name: Add nuget source
+        run: nuget sources add -Name "MyExample" -Source ${{ secrets.NUGET_FEED_URL }} -username ${{ secrets.NUGET_USERNAME }} -password ${{ secrets.NUGET_PASSWORD }}
+
+      #      - name: Set up NuGet
 #        uses: NuGet/setup-nuget@v1
 #        with:
 #          nuget-api-key: ${{ secrets.NUGET_API_KEY }} # Use your API key stored as a secret
