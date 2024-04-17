@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir -p zips
           version=${{ steps.extract_version.outputs.version }}
-          platforms=${{ steps.set_platforms.outputs.platforms }}
+          platforms="${{ steps.set_platforms.outputs.platforms }}"
           for platform in $platforms; do
             dotnet publish -r $platform -c Release --self-contained /p:Version=${version}
           done
@@ -67,7 +67,7 @@ jobs:
         run: |
           mkdir zips
           version=${{ steps.extract_version.outputs.version }}
-          platforms=${{ steps.set_platforms.outputs.platforms }}
+          platforms="${{ steps.set_platforms.outputs.platforms }}"
           for platform in $platforms; do
             zipfilename=aelf-contract-patcher-$platform-v$version.zip
             zip -j "zips/$zipfilename" "bin/net6.0/Release/$platform"/*
