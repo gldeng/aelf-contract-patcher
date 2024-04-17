@@ -76,7 +76,6 @@ jobs:
 
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
-          mkdir -p zips
           version=${{ steps.extract_version.outputs.version }}
           platforms="${{ steps.set_platforms.outputs.platforms }}"
           for platform in $platforms; do
@@ -115,7 +114,7 @@ jobs:
       
       - name: Create and upload release zips
         run: |
-          mkdir zips
+          mkdir -p zips
           version=${{ steps.extract_version.outputs.version }}
           platforms="${{ steps.set_platforms.outputs.platforms }}"
           for platform in $platforms; do
