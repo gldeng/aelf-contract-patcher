@@ -47,6 +47,11 @@ jobs:
               <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
               <!-- Include other package sources if needed -->
             </packageSources>
+           <apikeys>
+              <!-- Add API key for your private Nexus NuGet repository -->
+              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_API_KEY }}" />
+              <!-- Include other API keys if needed -->
+            </apikeys>
           </configuration>' > nuget.config
 
       - name: Build project # This would actually build your project, using zip for an example artifact
