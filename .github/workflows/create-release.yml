@@ -36,6 +36,19 @@ jobs:
       - name: Add private Nexus NuGet source
         run: nuget sources add -name MyPrivateNugetSource -source ${{ secrets.NUGET_FEED_URL }} -username apikey -password ${{ secrets.NUGET_API_KEY }}
 
+      - name: Create NuGet configuration file
+        run: |
+          echo '<?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <packageSources>
+              <!-- Add the public NuGet.org repository as a package source -->
+              <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
+              <!-- Add the private Nexus NuGet repository as a package source -->
+              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
+              <!-- Include other package sources if needed -->
+            </packageSources>
+          </configuration>' > nuget.config
+
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           mkdir -p zips
