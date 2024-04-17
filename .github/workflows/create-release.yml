@@ -122,7 +122,7 @@ jobs:
             zip -j "zips/$zipfilename" "AElf.ContractPatcher/bin/Release/net6.0/$platform/publish"/*
             echo "Uploading $zipfilename ..."
             curl -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Authorization: token ${{ secrets.PAT }}" \
               -H "Content-Type: application/zip" \
               --data-binary "@zips/$zipfilename" \
               "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.id }}/assets?name=$zipfilename"
