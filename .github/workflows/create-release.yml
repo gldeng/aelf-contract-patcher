@@ -57,6 +57,9 @@ jobs:
       - name: Restore packages
         run: dotnet restore --configfile nuget.config
 
+      - name: Check files
+        run: ls -la
+
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           mkdir -p zips
