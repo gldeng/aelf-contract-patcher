@@ -35,9 +35,8 @@ jobs:
             <packageSources>
               <!-- Add the public NuGet.org repository as a package source -->
               <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
-              <!-- Add the private Nexus NuGet repository as a package source -->
+              <!-- Add the private NuGet repository as a package source -->
               <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
-              <!-- Include other package sources if needed -->
             </packageSources>
           </configuration>' > nuget.config
 
@@ -60,8 +59,8 @@ jobs:
       - name: Create release zips
         run: |
           mkdir -p zips
-          zipfilename=aelf-contract-patcher-${{ matrix.platforms }}-v$VERSION.zip
-          zip -j "zips/$zipfilename" "AElf.ContractPatcher/bin/Release/net6.0/${{ matrix.platforms }}/publish"/*
+          zip -j "zips/aelf-contract-patcher-${{ matrix.platforms }}-v${{ env.VERSION }}.zip" \
+          "AElf.ContractPatcher/bin/Release/net6.0/${{ matrix.platforms }}/publish"/*
 
       - name: Upload zips to release
         uses: svenstaro/upload-release-action@v2
