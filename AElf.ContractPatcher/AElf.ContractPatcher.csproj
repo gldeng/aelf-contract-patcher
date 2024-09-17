@@ -4,7 +4,7 @@
     <PropertyGroup>
         <PackageId>AElf.ContractPatcher</PackageId>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <Description>Smart contract patcher.</Description>
         <RootNamespace>AElf.ContractDeployer</RootNamespace>
@@ -18,10 +18,15 @@
     <ItemGroup Label="NuGet package assets">
         <None Pack="true" PackagePath="build\" Include="*.targets;"/>
     </ItemGroup>
+
+    <PropertyGroup>
+        <AElfPackageVersion>1.7.0-preview.31</AElfPackageVersion>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="AElf.CSharp.CodeOps" Version="1.7.0-preview.27" />
-        <PackageReference Include="AElf.Runtime.CSharp.Core" Version="1.7.0-preview.27" />
-        <PackageReference Include="AElf.Types" Version="1.7.0-preview.27" />
+        <PackageReference Include="AElf.CSharp.CodeOps" Version="$(AElfPackageVersion)" />
+        <PackageReference Include="AElf.Runtime.CSharp.Core" Version="$(AElfPackageVersion)" />
+        <PackageReference Include="AElf.Types" Version="$(AElfPackageVersion)" />
         <PackageReference Include="CommandLineParser" Version="2.8.0"/>
     </ItemGroup>
 </Project>
