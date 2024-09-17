@@ -60,7 +60,7 @@ jobs:
         run: |
           mkdir -p zips
           zip -j "zips/aelf-contract-patcher-${{ matrix.platforms }}-v${{ env.VERSION }}.zip" \
-          "AElf.ContractPatcher/bin/Release/net6.0/${{ matrix.platforms }}/publish"/*
+          "AElf.ContractPatcher/bin/Release/net8.0/${{ matrix.platforms }}/publish"/*
 
       - name: Upload zips to release
         uses: svenstaro/upload-release-action@v2
