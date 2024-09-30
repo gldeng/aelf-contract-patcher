@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <AElfPackageVersion>1.7.0-preview.32</AElfPackageVersion>
+        <AElfPackageVersion>1.7.0-preview.33</AElfPackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
