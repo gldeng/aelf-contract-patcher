@@ -28,18 +28,6 @@ jobs:
           echo "VERSION=$version" >> $GITHUB_ENV
           echo "Version extracted: $version"
 
-      - name: Create NuGet configuration file
-        run: |
-          echo '<?xml version="1.0" encoding="utf-8"?>
-          <configuration>
-            <packageSources>
-              <!-- Add the public NuGet.org repository as a package source -->
-              <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
-              <!-- Add the private NuGet repository as a package source -->
-              <add key="MyPrivateNugetSource" value="${{ secrets.NUGET_FEED_URL }}" />
-            </packageSources>
-          </configuration>' > nuget.config
-
       - name: Restore packages
         run: dotnet restore
 
